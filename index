@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WeSpeak | Waffle Nation Proposal</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Montserrat', 'sans-serif'],
+            },
+            colors: {
+              waffle: {
+                100: '#FFF8E1',
+                300: '#FDE68A',
+                500: '#F59E0B',
+                700: '#B45309',
+                900: '#78350F',
+              },
+              brand: {
+                dark: '#111111',
+                light: '#FAFAF9',
+                accent: '#2563EB'
+              }
+            },
+            animation: {
+              'float': 'float 6s ease-in-out infinite',
+              'spin-slow': 'spin 12s linear infinite',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-20px)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* Base Styles */
+      body {
+        font-family: 'Montserrat', sans-serif;
+        overflow-x: hidden; /* Prevent horizontal scroll */
+      }
+      
+      /* Desktop Scrollbar hidden */
+      @media (min-width: 768px) {
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        body { -ms-overflow-style: none; scrollbar-width: none; overflow: hidden; }
+      }
+
+      .waffle-pattern {
+        background-color: #F59E0B;
+        background-image: radial-gradient(#FDE68A 15%, transparent 16%), radial-gradient(#FDE68A 15%, transparent 16%);
+        background-size: 40px 40px;
+        background-position: 0 0, 20px 20px;
+      }
+
+      /* Transitions for Slides */
+      .slide-section {
+        transition: opacity 1000ms ease, transform 1000ms ease, z-index 0ms;
+      }
+      
+      /* Utilities for slide states */
+      .slide-active {
+        opacity: 1;
+        z-index: 10;
+        transform: translateY(0) translateX(0);
+        pointer-events: auto;
+      }
+      
+      .slide-inactive {
+        /* Desktop specific hiding */
+        opacity: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      @media (min-width: 768px) {
+        .slide-inactive {
+            transform: translateY(20px); /* Slight offset for effect */
+        }
+      }
+
+      /* Mobile Override: Always show slides stacked */
+      @media (max-width: 767px) {
+        .slide-section {
+            opacity: 1 !important;
+            transform: none !important;
+            pointer-events: auto !important;
+            z-index: auto !important;
+            position: relative !important;
+            min-height: 100dvh !important;
+        }
+        #desktop-nav { display: none !important; }
+        #branding-header { position: fixed; }
+      }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
+  }
+}
+</script>
+</head>
+<body class="bg-brand-dark text-brand-light antialiased selection:bg-waffle-500 selection:text-white">
+
+    <!-- Branding Header (Fixed) -->
+    <div id="branding-header" class="fixed top-6 left-6 z-50 font-black tracking-widest uppercase text-xs md:text-sm transition-colors duration-300 mix-blend-difference text-white opacity-80 pointer-events-none">
+        WeSpeak <span class="mx-2 text-waffle-500">x</span> Waffle Nation
+    </div>
+
+    <!-- Main Slides Container -->
+    <div id="slides-wrapper" class="w-full relative flex flex-col md:block md:h-screen">
+        
+        <!-- 0. INTRO SLIDE -->
+        <section id="slide-0" class="slide-section relative w-full min-h-[100dvh] md:absolute md:inset-0 bg-brand-dark overflow-hidden slide-active">
+             <!-- Abstract Background -->
+             <div class="absolute inset-0 opacity-20 pointer-events-none">
+                <div class="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-waffle-500 rounded-full blur-[120px] animate-float"></div>
+                <div class="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-orange-700 rounded-full blur-[100px] animate-float" style="animation-delay: 2s"></div>
+             </div>
+             <div class="absolute inset-0 z-0 opacity-10 waffle-pattern rotate-12 scale-150 pointer-events-none"></div>
+
+             <div class="w-full min-h-[100dvh] md:min-h-0 md:h-full flex flex-col justify-center items-center px-6 py-24 md:py-0 md:px-16 max-w-7xl mx-auto relative z-10 shrink-0">
+                <div class="text-center">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 border-2 border-waffle-500 text-waffle-500 rounded-full text-xs font-black tracking-[0.2em] mb-8 uppercase">
+                        <i data-lucide="sparkles" width="14"></i> WeSpeak Presents
+                    </div>
+                    
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight tracking-tight text-brand-light mb-8">
+                        BIENVENIDO A LA <br />
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-waffle-500 to-waffle-300 drop-shadow-sm">
+                            WAFFLE NATION
+                        </span>
+                    </h1>
+                    
+                    <p class="text-lg md:text-xl font-medium leading-relaxed mb-4 max-w-2xl mx-auto text-gray-400">
+                        Estrategia integral de lanzamiento, posicionamiento y lealtad para la nueva experiencia gastronómica de Interlomas.
+                    </p>
+                    
+                    <!-- Desktop Button -->
+                    <div class="mt-12 flex justify-center md:block hidden">
+                        <button onclick="goToNext()" class="group relative px-10 py-5 bg-white text-brand-dark font-black text-lg rounded-full overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)]">
+                            <span class="relative z-10 flex items-center gap-3">
+                                INICIAR EXPERIENCIA <i data-lucide="arrow-right" class="group-hover:translate-x-1 transition-transform" width="20"></i>
+                            </span>
+                        </button>
+                    </div>
+
+                    <!-- Mobile Scroll Hint -->
+                    <div class="mt-12 flex justify-center md:hidden animate-bounce text-gray-500">
+                        <i data-lucide="arrow-right" class="rotate-90" width="24"></i>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+        <!-- 1. CONTEXT SLIDE -->
+        <section id="slide-1" class="slide-section relative w-full min-h-[100dvh] md:absolute md:inset-0 bg-brand-light slide-inactive">
+            <div class="w-full min-h-[100dvh] md:min-h-0 md:h-full flex flex-col justify-center items-center px-6 py-24 md:py-0 md:px-16 max-w-7xl mx-auto relative z-10 shrink-0">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
+                    <!-- Left -->
+                    <div class="lg:col-span-7">
+                        <div class="flex items-center gap-2 mb-6 text-waffle-700 font-bold uppercase tracking-wider text-sm">
+                            <i data-lucide="alert-circle" width="16"></i> Diagnóstico Inicial
+                        </div>
+                        <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight tracking-tight text-brand-dark">EL DESAFÍO DE LA ISLA</h1>
+                        
+                        <div class="space-y-6">
+                            <p class="text-lg md:text-xl font-medium leading-relaxed mb-4 max-w-2xl text-gray-600">
+                                Waffle Nation llega a Interlomas con un producto ganador: <span class="text-waffle-600 font-bold">Waffles Kosher de Alta Calidad</span>. Sin embargo, estar en una "isla" presenta retos únicos de visibilidad y percepción.
+                            </p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                                <div class="p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+                                    <h3 class="font-bold text-brand-dark mb-2 flex items-center gap-2">
+                                        <span class="w-2 h-2 rounded-full bg-red-500"></span> Dolor
+                                    </h3>
+                                    <p class="text-sm text-gray-500">"Es comida rápida, no es un destino." <br/>Necesitamos cambiar la percepción de 'paso' a 'destino'.</p>
+                                </div>
+                                <div class="p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+                                    <h3 class="font-bold text-brand-dark mb-2 flex items-center gap-2">
+                                        <span class="w-2 h-2 rounded-full bg-green-500"></span> Oportunidad
+                                    </h3>
+                                    <p class="text-sm text-gray-500">El mercado Kosher busca novedad constante y lugares de confianza (Hechsher).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right -->
+                    <div class="lg:col-span-5 relative">
+                        <div class="absolute inset-0 bg-waffle-500 rounded-[3rem] rotate-3 opacity-20"></div>
+                        <div class="relative bg-brand-dark p-10 rounded-[3rem] text-white shadow-2xl">
+                            <i data-lucide="quote" class="text-waffle-500 mb-6" width="48"></i>
+                            <p class="text-xl md:text-2xl font-bold leading-relaxed mb-6">
+                                "No queremos ser solo una opción más en el mall. Queremos ser la <span class="text-waffle-500">Nación</span> donde todos se sienten bienvenidos."
+                            </p>
+                            <div class="flex items-center gap-3 opacity-60">
+                                <div class="h-px bg-white flex-1"></div>
+                                <span class="text-xs font-bold uppercase tracking-widest">Objetivo WeSpeak</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. TARGET SLIDE (Interactive) -->
+        <section id="slide-2" class="slide-section relative w-full min-h-[100dvh] md:absolute md:inset-0 bg-neutral-900 slide-inactive">
+            <div class="w-full min-h-[100dvh] md:min-h-0 md:h-full flex flex-col justify-center items-center px-6 py-24 md:py-0 md:px-16 max-w-7xl mx-auto relative z-10 shrink-0">
+                <div class="w-full text-center mb-10">
+                    <p class="text-waffle-500 text-sm font-bold uppercase tracking-widest mb-2">A quién le hablamos</p>
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight tracking-tight text-brand-light">CIUDADANOS DE LA NACIÓN</h1>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl" id="persona-container">
+                    <!-- Persona 1 -->
+                    <div class="persona-card cursor-pointer group relative p-8 rounded-3xl border transition-all duration-500 overflow-hidden bg-waffle-500 border-waffle-500 scale-105 shadow-[0_0_30px_rgba(245,158,11,0.3)]" onclick="selectPersona(0)">
+                        <div class="icon-box mb-6 p-4 rounded-2xl inline-block transition-colors bg-black/20 text-black">
+                            <i data-lucide="users" width="32"></i>
+                        </div>
+                        <h3 class="title text-2xl font-bold mb-4 text-brand-dark">The Community Mom</h3>
+                        <p class="desc text-sm leading-relaxed mb-6 text-brand-dark/80 font-medium">Busca opciones Kosher confiables para sus hijos post-colegio. Valora la certificación y la limpieza.</p>
+                        <div class="pt-4 border-t border-brand-dark/10">
+                            <p class="text-xs font-bold uppercase tracking-wider text-brand-dark">Gancho de Venta:</p>
+                            <p class="text-sm italic mt-1 text-brand-dark">"La merienda segura y deliciosa."</p>
+                        </div>
+                    </div>
+
+                    <!-- Persona 2 -->
+                    <div class="persona-card cursor-pointer group relative p-8 rounded-3xl border transition-all duration-500 overflow-hidden bg-white/5 border-white/10 hover:bg-white/10" onclick="selectPersona(1)">
+                         <div class="icon-box mb-6 p-4 rounded-2xl inline-block transition-colors bg-white/10 text-waffle-500">
+                            <i data-lucide="star" width="32"></i>
+                        </div>
+                        <h3 class="title text-2xl font-bold mb-4 text-white">The Social Foodie</h3>
+                        <p class="desc text-sm leading-relaxed mb-6 text-gray-400">Gen Z / Millennial. Busca el waffle 'instagrammable'. No le importa si es Kosher o no, solo que se vea increíble.</p>
+                        <div class="pt-4 border-t border-white/10">
+                            <p class="text-xs font-bold uppercase tracking-wider text-waffle-500">Gancho de Venta:</p>
+                            <p class="text-sm italic mt-1 text-white">"El Waffle más aesthetic de Interlomas."</p>
+                        </div>
+                    </div>
+
+                    <!-- Persona 3 -->
+                    <div class="persona-card cursor-pointer group relative p-8 rounded-3xl border transition-all duration-500 overflow-hidden bg-white/5 border-white/10 hover:bg-white/10" onclick="selectPersona(2)">
+                         <div class="icon-box mb-6 p-4 rounded-2xl inline-block transition-colors bg-white/10 text-waffle-500">
+                            <i data-lucide="coffee" width="32"></i>
+                        </div>
+                        <h3 class="title text-2xl font-bold mb-4 text-white">The Rush Worker</h3>
+                        <p class="desc text-sm leading-relaxed mb-6 text-gray-400">Trabaja en la zona. Tiene 15 minutos. Quiere algo rico, rápido y energético.</p>
+                        <div class="pt-4 border-t border-white/10">
+                            <p class="text-xs font-bold uppercase tracking-wider text-waffle-500">Gancho de Venta:</p>
+                            <p class="text-sm italic mt-1 text-white">"Energía inmediata, sabor premium."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. MANIFESTO SLIDE -->
+        <section id="slide-3" class="slide-section relative w-full min-h-[100dvh] md:absolute md:inset-0 bg-waffle-500 slide-inactive">
+             <div class="absolute inset-0 w-full h-full overflow-hidden opacity-30 pointer-events-none">
+                <div class="absolute top-[-20%] left-[-20%] text-[400px] font-black text-black opacity-10 rotate-12 select-none">WAFFLE</div>
+                <div class="absolute bottom-[-20%] right-[-10%] text-[400px] font-black text-black opacity-10 -rotate-12 select-none">NATION</div>
+            </div>
+            <div class="w-full min-h-[100dvh] md:min-h-0 md:h-full flex flex-col justify-center items-center px-6 py-24 md:py-0 md:px-16 max-w-7xl mx-auto relative z-10 shrink-0">
+                <div class="relative z-10 text-center max-w-5xl mx-auto">
+                    <p class="text-brand-dark font-black tracking-[0.3em] uppercase mb-6 text-sm md:text-base">Nuestra Filosofía</p>
+                    <h1 class="text-brand-dark text-5xl md:text-7xl lg:text-8xl mb-12 uppercase leading-[0.9] font-black">
+                        NO VENDEMOS WAFFLES.<br/>
+                        <span class="text-white">CREAMOS PERTENENCIA.</span>
+                    </h1>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left mt-16">
+                        <div class="bg-brand-dark p-8 rounded-3xl shadow-xl hover:-translate-y-2 transition-transform">
+                            <h3 class="text-2xl font-bold text-waffle-500 mb-4 uppercase">El Manifiesto</h3>
+                            <p class="text-gray-300 text-lg font-medium leading-relaxed">
+                                "Aquí no importa si vienes de la Yeshivá o de la oficina. Importa que te gusta comer bien. Si amas el waffle, <span class="text-white underline decoration-waffle-500">ya eres ciudadano</span>."
+                            </p>
+                        </div>
+                        <div class="bg-white/20 backdrop-blur-md p-8 rounded-3xl border border-brand-dark/10 hover:-translate-y-2 transition-transform">
+                             <h3 class="text-2xl font-bold text-brand-dark mb-4 uppercase">Tone of Voice</h3>
+                             <ul class="space-y-4 text-brand-dark font-medium">
+                                <li class="flex items-center gap-3"><span class="w-3 h-3 bg-brand-dark rounded-full"></span> Inclusivo pero selecto.</li>
+                                <li class="flex items-center gap-3"><span class="w-3 h-3 bg-brand-dark rounded-full"></span> Confianza Kosher sin ser excluyente.</li>
+                                <li class="flex items-center gap-3"><span class="w-3 h-3 bg-brand-dark rounded-full"></span> Visualmente "Craveable".</li>
+                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. PILLARS SLIDE -->
+        <section id="slide-4" class="slide-section relative w-full min-h-[100dvh] md:absolute md:inset-0 bg-brand-light slide-inactive">
+            <div class="w-full min-h-[100dvh] md:min-h-0 md:h-full flex flex-col justify-center items-center px-6 py-24 md:py-0 md:px-16 max-w-7xl mx-auto relative z-10 shrink-0">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full">
+                    <div>
+                        <div class="flex items-center gap-2 mb-4 text-brand-accent font-bold uppercase tracking-wider text-sm">
+                            <i data-lucide="hash" width="16"></i> Content Strategy
+                        </div>
+                        <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight tracking-tight text-brand-dark">PILARES DE CONTENIDO</h1>
+                        <p class="text-lg md:text-xl font-medium leading-relaxed mb-8 max-w-2xl text-gray-600">No publicamos por publicar. Cada pieza de contenido tiene un propósito específico dentro de la narrativa de la Nación.</p>
+                        
+                        <!-- Grid Visualization -->
+                        <div class="grid grid-cols-3 gap-2 aspect-square w-full max-w-[300px] opacity-80">
+                            <div class="bg-gray-200 rounded-lg animate-pulse"></div>
+                            <div class="bg-gray-200 rounded-lg animate-pulse" style="animation-delay: 100ms"></div>
+                            <div class="bg-gray-200 rounded-lg animate-pulse" style="animation-delay: 200ms"></div>
+                            <div class="bg-gray-200 rounded-lg animate-pulse" style="animation-delay: 300ms"></div>
+                            <div class="bg-gray-200 rounded-lg animate-pulse" style="animation-delay: 400ms"></div>
+                            <div class="bg-gray-200 rounded-lg animate-pulse" style="animation-delay: 500ms"></div>
+                            <div class="bg-gray-200 rounded-lg animate-pulse" style="animation-delay: 600ms"></div>
+                            <div class="bg-gray-200 rounded-lg animate-pulse" style="animation-delay: 700ms"></div>
+                            <div class="bg-gray-200 rounded-lg animate-pulse" style="animation-delay: 800ms"></div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- Pillar 1 -->
+                        <div class="group bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:border-waffle-500 hover:shadow-md transition-all">
+                            <div class="flex items-start gap-4">
+                                <div class="p-3 bg-brand-light rounded-xl text-brand-dark group-hover:bg-waffle-500 group-hover:text-white transition-colors"><i data-lucide="aperture"></i></div>
+                                <div>
+                                    <h3 class="text-xl font-black text-brand-dark mb-1 uppercase">VISUAL CRAVING</h3>
+                                    <p class="text-gray-500 text-sm mb-2">Food Porn de alto nivel. Close-ups de texturas, toppings cayendo, el humo saliendo.</p>
+                                    <span class="text-xs font-bold text-brand-accent">#WaffleLover</span>
+                                </div>
+                            </div>
+                        </div>
+                         <!-- Pillar 2 -->
+                        <div class="group bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:border-waffle-500 hover:shadow-md transition-all">
+                            <div class="flex items-start gap-4">
+                                <div class="p-3 bg-brand-light rounded-xl text-brand-dark group-hover:bg-waffle-500 group-hover:text-white transition-colors"><i data-lucide="heart"></i></div>
+                                <div>
+                                    <h3 class="text-xl font-black text-brand-dark mb-1 uppercase">INSIDE THE NATION</h3>
+                                    <p class="text-gray-500 text-sm mb-2">Humanizar la marca. Caras felices, staff preparando, clientes disfrutando.</p>
+                                    <span class="text-xs font-bold text-brand-accent">#WaffleCitizens</span>
+                                </div>
+                            </div>
+                        </div>
+                         <!-- Pillar 3 -->
+                        <div class="group bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:border-waffle-500 hover:shadow-md transition-all">
+                            <div class="flex items-start gap-4">
+                                <div class="p-3 bg-brand-light rounded-xl text-brand-dark group-hover:bg-waffle-500 group-hover:text-white transition-colors"><i data-lucide="book-open"></i></div>
+                                <div>
+                                    <h3 class="text-xl font-black text-brand-dark mb-1 uppercase">WAFFLE WISDOM</h3>
+                                    <p class="text-gray-500 text-sm mb-2">Educativo sutil. Por qué nuestros ingredientes son mejores. Certificación.</p>
+                                    <span class="text-xs font-bold text-brand-accent">#CalidadWaffle</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. STRATEGY SLIDE -->
+        <section id="slide-5" class="slide-section relative w-full min-h-[100dvh] md:absolute md:inset-0 bg-brand-dark slide-inactive">
+            <div class="w-full min-h-[100dvh] md:min-h-0 md:h-full flex flex-col justify-center items-center px-6 py-24 md:py-0 md:px-16 max-w-7xl mx-auto relative z-10 shrink-0">
+                <div class="mb-8 text-center">
+                    <p class="text-waffle-500 font-bold uppercase tracking-widest text-sm mb-2">Visión General</p>
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-2 leading-tight tracking-tight text-brand-light">EL ECOSISTEMA 360°</h1>
+                    <p class="text-lg md:text-xl font-medium leading-relaxed mb-4 max-w-xl mx-auto text-gray-400 text-sm md:text-base">
+                        Una maquinaria integrada donde cada pieza tiene una función específica para atraer, convertir y retener.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6 max-w-6xl mx-auto w-full">
+                    <!-- Tactic Cards -->
+                    <div class="group relative rounded-2xl overflow-hidden transition-all duration-300 cursor-default bg-white/5 border border-white/10 hover:bg-white/10 hover:border-waffle-500/50 hover:-translate-y-1 h-[180px]">
+                        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-600 to-rose-500"></div>
+                        <div class="p-6 flex flex-col h-full">
+                             <div class="flex justify-between items-start mb-3">
+                                <div class="p-2 rounded-lg bg-white/5 text-gray-200 group-hover:text-white transition-colors"><i data-lucide="instagram"></i></div>
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-gray-500 group-hover:text-waffle-500 transition-colors">La Vitrina</span>
+                             </div>
+                             <h3 class="text-lg font-bold text-white mb-2">Content & Social</h3>
+                             <p class="text-gray-400 text-xs leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">Producción visual de alto impacto.</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative rounded-2xl overflow-hidden transition-all duration-300 cursor-default bg-white/5 border border-white/10 hover:bg-white/10 hover:border-waffle-500/50 hover:-translate-y-1 h-[180px]">
+                        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 to-indigo-500"></div>
+                        <div class="p-6 flex flex-col h-full">
+                             <div class="flex justify-between items-start mb-3">
+                                <div class="p-2 rounded-lg bg-white/5 text-gray-200 group-hover:text-white transition-colors"><i data-lucide="message-circle"></i></div>
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-gray-500 group-hover:text-waffle-500 transition-colors">La Voz</span>
+                             </div>
+                             <h3 class="text-lg font-bold text-white mb-2">Community Mgmt</h3>
+                             <p class="text-gray-400 text-xs leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">Gestión activa de respuestas y reputación.</p>
+                        </div>
+                    </div>
+                     
+                    <div class="group relative rounded-2xl overflow-hidden transition-all duration-300 cursor-default bg-white/5 border border-white/10 hover:bg-white/10 hover:border-waffle-500/50 hover:-translate-y-1 h-[180px]">
+                        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-cyan-500"></div>
+                        <div class="p-6 flex flex-col h-full">
+                             <div class="flex justify-between items-start mb-3">
+                                <div class="p-2 rounded-lg bg-white/5 text-gray-200 group-hover:text-white transition-colors"><i data-lucide="trending-up"></i></div>
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-gray-500 group-hover:text-waffle-500 transition-colors">El Motor</span>
+                             </div>
+                             <h3 class="text-lg font-bold text-white mb-2">Paid Media</h3>
+                             <p class="text-gray-400 text-xs leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">Estrategia de compra de medios segmentada.</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative rounded-2xl overflow-hidden transition-all duration-300 cursor-default bg-white/5 border border-white/10 hover:bg-white/10 hover:border-waffle-500/50 hover:-translate-y-1 h-[180px]">
+                        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-500 to-emerald-500"></div>
+                        <div class="p-6 flex flex-col h-full">
+                             <div class="flex justify-between items-start mb-3">
+                                <div class="p-2 rounded-lg bg-white/5 text-gray-200 group-hover:text-white transition-colors"><i data-lucide="layout"></i></div>
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-gray-500 group-hover:text-waffle-500 transition-colors">El Aterrizaje</span>
+                             </div>
+                             <h3 class="text-lg font-bold text-white mb-2">Web One Page</h3>
+                             <p class="text-gray-400 text-xs leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">Sitio web optimizado para móviles.</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative rounded-2xl overflow-hidden transition-all duration-300 cursor-default bg-white/5 border border-white/10 hover:bg-white/10 hover:border-waffle-500/50 hover:-translate-y-1 h-[180px]">
+                        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-orange-500"></div>
+                        <div class="p-6 flex flex-col h-full">
+                             <div class="flex justify-between items-start mb-3">
+                                <div class="p-2 rounded-lg bg-white/5 text-gray-200 group-hover:text-white transition-colors"><i data-lucide="database"></i></div>
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-gray-500 group-hover:text-waffle-500 transition-colors">La Captura</span>
+                             </div>
+                             <h3 class="text-lg font-bold text-white mb-2">Smart Data</h3>
+                             <p class="text-gray-400 text-xs leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">Captación de leads vía WiFi Social.</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative rounded-2xl overflow-hidden transition-all duration-300 cursor-default bg-white/5 border border-white/10 hover:bg-white/10 hover:border-waffle-500/50 hover:-translate-y-1 h-[180px]">
+                        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 to-red-500"></div>
+                        <div class="p-6 flex flex-col h-full">
+                             <div class="flex justify-between items-start mb-3">
+                                <div class="p-2 rounded-lg bg-white/5 text-gray-200 group-hover:text-white transition-colors"><i data-lucide="heart"></i></div>
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-gray-500 group-hover:text-waffle-500 transition-colors">La Retención</span>
+                             </div>
+                             <h3 class="text-lg font-bold text-white mb-2">Loyalty Wallet</h3>
+                             <p class="text-gray-400 text-xs leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">Programa de lealtad digital en Apple/Google Wallet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. SOCIAL CM SLIDE -->
+        <section id="slide-6" class="slide-section relative w-full min-h-[100dvh] md:absolute md:inset-0 bg-white slide-inactive">
+             <div class="w-full min-h-[100dvh] md:min-h-0 md:h-full flex flex-col justify-center items-center px-6 py-24 md:py-0 md:px-16 max-w-7xl mx-auto relative z-10 shrink-0">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full">
+                     <!-- Left -->
+                     <div>
+                        <div class="flex items-center gap-2 mb-4 text-pink-600 font-bold uppercase tracking-wider text-sm">
+                            <i data-lucide="message-circle" width="16"></i> Pilar 1: La Voz Digital
+                        </div>
+                        <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight tracking-tight text-brand-dark">COMMUNITY MANAGEMENT</h1>
+                        <p class="text-lg md:text-xl font-medium leading-relaxed mb-6 max-w-2xl text-gray-600">No es solo publicar fotos bonitas. Es gestionar la reputación de la marca y crear una relación real con los clientes.</p>
+                        
+                        <div class="space-y-6">
+                            <div class="flex gap-4">
+                                <div class="w-10 h-10 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center shrink-0 font-bold">1</div>
+                                <div><h4 class="font-bold text-gray-900">Publicación Constante</h4><p class="text-sm text-gray-500">Calendario de contenidos (Reels, Stories, Posts).</p></div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center shrink-0 font-bold">2</div>
+                                <div><h4 class="font-bold text-gray-900">Respuesta Activa (SLA)</h4><p class="text-sm text-gray-500">Respondemos dudas y DMs. Convertimos preguntas en visitas.</p></div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 font-bold">3</div>
+                                <div><h4 class="font-bold text-gray-900">Humanización</h4><p class="text-sm text-gray-500">Interactuamos con otras cuentas locales.</p></div>
+                            </div>
+                        </div>
+                     </div>
+                     <!-- Right: Mockup -->
+                     <div class="relative">
+                        <div class="w-[320px] mx-auto bg-gray-50 rounded-3xl shadow-2xl border border-gray-200 overflow-hidden relative z-10">
+                             <div class="bg-white p-4 border-b flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-waffle-500"></div>
+                                <span class="font-bold text-sm text-gray-800">wafflenation.mx</span>
+                             </div>
+                             <div class="p-4 space-y-4 h-[300px] overflow-hidden relative">
+                                <div class="flex gap-3 items-start animate-float" style="animation-duration: 4s"><div class="w-8 h-8 rounded-full bg-gray-300 shrink-0"></div><div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-gray-100 text-xs text-gray-600"><p>¡Se ven deliciosos! 🤤 ¿Tienen certificación?</p></div></div>
+                                <div class="flex gap-3 items-start justify-end animate-float" style="animation-duration: 4s; animation-delay: 1s"><div class="bg-waffle-100 p-3 rounded-2xl rounded-tr-none text-xs text-gray-800"><p>¡Claro que sí! KMD. ¡Te esperamos! 🧇</p></div><div class="w-8 h-8 rounded-full bg-waffle-500 shrink-0 flex items-center justify-center text-white text-[10px]">WN</div></div>
+                                <div class="absolute bottom-4 left-4 right-4 bg-gray-900 text-white p-3 rounded-xl flex items-center gap-3 shadow-lg"><i data-lucide="check-circle" class="text-green-400" width="16"></i><span class="text-xs font-bold">Cliente potencial atendido</span></div>
+                             </div>
+                        </div>
+                        <div class="absolute -z-10 top-10 right-0 w-32 h-32 bg-pink-200 rounded-full blur-3xl opacity-50"></div>
+                        <div class="absolute -z-10 bottom-10 left-0 w-32 h-32 bg-blue-200 rounded-full blur-3xl opacity-50"></div>
+                     </div>
+                </div>
+             </div>
+        </section>
+
+        <!-- 7. PAID MEDIA SLIDE -->
+        <section id="slide-7" class="slide-section relative w-full min-h-[100dvh] md:absolute md:inset-0 bg-neutral-900 slide-inactive">
+             <div class="w-full min-h-[100dvh] md:min-h-0 md:h-full flex flex-col justify-center items-center px-6 py-24 md:py-0 md:px-16 max-w-7xl mx-auto relative z-10 shrink-0">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full">
+                     <!-- Visual Funnel -->
+                     <div class="relative order-2 lg:order-1">
+                         <div class="bg-white/5 p-8 rounded-3xl border border-white/10 backdrop-blur-sm">
+                             <div class="flex items-center justify-between mb-8"><h3 class="text-white font-bold uppercase tracking-wider">Estructura de Campañas</h3><div class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-bold">Active</div></div>
+                             <div class="space-y-4">
+                                <div class="w-full bg-gradient-to-r from-blue-600 to-blue-400 p-4 rounded-xl"><div class="flex justify-between items-center text-white"><span class="font-bold flex items-center gap-2"><i data-lucide="users" width="16"></i> Segmentación</span><span class="text-xs opacity-80">Interlomas + 3km</span></div></div>
+                                <div class="flex justify-center -my-2 opacity-50 text-white"><i data-lucide="arrow-down"></i></div>
+                                <div class="w-[85%] mx-auto bg-gradient-to-r from-purple-600 to-purple-400 p-4 rounded-xl"><div class="flex justify-between items-center text-white"><span class="font-bold flex items-center gap-2"><i data-lucide="mouse-pointer-2" width="16"></i> Tráfico</span><span class="text-xs opacity-80">Clicks a Web</span></div></div>
+                                <div class="flex justify-center -my-2 opacity-50 text-white"><i data-lucide="arrow-down"></i></div>
+                                <div class="w-[70%] mx-auto bg-gradient-to-r from-waffle-500 to-yellow-400 p-4 rounded-xl"><div class="flex justify-between items-center text-brand-dark"><span class="font-black flex items-center gap-2"><i data-lucide="target" width="16"></i> Conversión</span><span class="text-xs font-bold">Visita</span></div></div>
+                             </div>
+                         </div>
+                     </div>
+                     <!-- Text -->
+                     <div class="order-1 lg:order-2">
+                         <div class="flex items-center gap-2 mb-4 text-blue-500 font-bold uppercase tracking-wider text-sm"><i data-lucide="trending-up" width="16"></i> Pilar 2: El Motor</div>
+                         <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight tracking-tight text-brand-light">PAID MEDIA STRATEGY</h1>
+                         <p class="text-lg md:text-xl font-medium leading-relaxed mb-8 max-w-2xl text-gray-400">No esperamos a que lleguen. Vamos por ellos. Implementamos campañas pagadas en Meta Ads con objetivos precisos.</p>
+                         <div class="grid grid-cols-1 gap-6">
+                            <div class="p-4 rounded-xl bg-white/5 border-l-4 border-blue-500"><h4 class="text-white font-bold text-lg mb-1">1. Segmentación Hiper-Local</h4><p class="text-sm text-gray-400">Geocercas en Interlomas y zonas aledañas. Intereses Foodie/Kosher.</p></div>
+                            <div class="p-4 rounded-xl bg-white/5 border-l-4 border-waffle-500"><h4 class="text-white font-bold text-lg mb-1">2. Objetivos</h4><ul class="text-sm text-gray-400 space-y-1 mt-2"><li>🔹 Tráfico a menú digital.</li><li>🔸 Conversión a cupón en Wallet.</li></ul></div>
+                         </div>
+                     </div>
+                </div>
+             </div>
+        </section>
+
+        <!-- 8. TECH DATA SLIDE -->
+        <section id="slide-8" class="slide-section relative w-full min-h-[100dvh] md:absolute md:inset-0 bg-stone-100 slide-inactive">
+             <div class="w-full min-h-[100dvh] md:min-h-0 md:h-full flex flex-col justify-center items-center px-6 py-24 md:py-0 md:px-16 max-w-7xl mx-auto relative z-10 shrink-0">
+                <div class="flex flex-col items-center text-center mb-10">
+                     <div class="flex items-center gap-2 mb-4 text-emerald-600 font-bold uppercase tracking-wider text-sm"><i data-lucide="database" width="16"></i> Pilar 3: Tecnología y Datos</div>
+                     <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-4 leading-tight tracking-tight text-brand-dark">WEB & SMART DATA</h1>
+                     <p class="text-lg md:text-xl font-medium leading-relaxed mb-4 max-w-3xl mx-auto text-gray-600">Convertimos el tráfico digital y físico en una base de datos propia.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl">
+                    <!-- Web Card -->
+                    <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-100">
+                        <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 mb-6"><i data-lucide="layout"></i></div>
+                        <h3 class="text-2xl font-black text-gray-900 mb-2">WEB ONE PAGE</h3>
+                        <p class="text-gray-500 mb-6 font-medium">Un sitio web ágil, diseñado para convertir visitas en antojo.</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-center gap-3 text-sm text-gray-700 bg-gray-50 p-2 rounded-lg"><div class="w-2 h-2 bg-emerald-500 rounded-full"></div>Menú Digital Interactivo (Fotos HD)</li>
+                            <li class="flex items-center gap-3 text-sm text-gray-700 bg-gray-50 p-2 rounded-lg"><div class="w-2 h-2 bg-emerald-500 rounded-full"></div>Ubicación con botón Waze/Maps</li>
+                        </ul>
+                    </div>
+                    <!-- Wifi Card -->
+                    <div class="bg-brand-dark p-8 rounded-3xl shadow-lg border border-gray-800">
+                        <div class="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center text-waffle-500 mb-6"><i data-lucide="wifi"></i></div>
+                        <h3 class="text-2xl font-black text-white mb-2">SMART DATA (WIFI)</h3>
+                        <p class="text-gray-400 mb-6 font-medium">La isla ofrece internet gratis, nosotros obtenemos sus datos.</p>
+                        <div class="bg-white/5 p-4 rounded-xl border border-white/10 mb-4">
+                            <div class="flex items-center justify-between text-white text-sm font-bold mb-2"><span>Intercambio de Valor</span><i data-lucide="arrow-right" class="text-waffle-500" width="16"></i></div>
+                            <div class="flex justify-between text-xs text-gray-400"><span>Cliente recibe WiFi</span><span>Nosotros Mail/Tel</span></div>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+        <!-- 9. LOYALTY SLIDE -->
+        <section id="slide-9" class="slide-section relative w-full min-h-[100dvh] md:absolute md:inset-0 bg-brand-dark slide-inactive">
+             <div class="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-waffle-900/40 via-transparent to-transparent pointer-events-none"></div>
+             <div class="w-full min-h-[100dvh] md:min-h-0 md:h-full flex flex-col justify-center items-center px-6 py-24 md:py-0 md:px-16 max-w-7xl mx-auto relative z-10 shrink-0">
+                 <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-24 w-full">
+                     <!-- Text -->
+                     <div class="flex-1 order-2 md:order-1 relative z-10">
+                        <div class="mb-6 inline-flex items-center gap-2 text-waffle-500 border border-waffle-500/30 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest bg-waffle-900/10"><i data-lucide="wallet" width="14"></i> Sin Apps • Sin Plásticos</div>
+                        <h1 class="text-5xl lg:text-7xl font-black mb-6 leading-tight tracking-tight text-brand-light">LOYALTY <br/>WALLET</h1>
+                        <p class="text-lg md:text-xl font-medium leading-relaxed mb-8 max-w-2xl text-gray-400">La tarjeta de cliente frecuente vive en su teléfono. Integración nativa con Apple Wallet y Google Wallet.</p>
+                        <div class="grid grid-cols-1 gap-6">
+                            <div class="flex gap-4 p-4 rounded-xl bg-white/5 border border-white/5"><div class="w-12 h-12 bg-waffle-500 rounded-lg flex items-center justify-center text-brand-dark shrink-0"><i data-lucide="qr-code"></i></div><div><h4 class="text-white font-bold text-lg">1. Escanea</h4><p class="text-gray-400 text-sm">QR único en cada ticket.</p></div></div>
+                            <div class="flex gap-4 p-4 rounded-xl bg-white/5 border border-white/5"><div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-brand-dark shrink-0"><i data-lucide="wallet"></i></div><div><h4 class="text-white font-bold text-lg">2. Guarda</h4><p class="text-gray-400 text-sm">Se añade al Wallet.</p></div></div>
+                        </div>
+                     </div>
+                     <!-- Phone Mockup -->
+                     <div class="flex-1 order-1 md:order-2 flex justify-center">
+                         <div class="relative w-[300px] h-[600px] bg-black border-8 border-gray-800 rounded-[3rem] shadow-[0_0_50px_rgba(245,158,11,0.2)] overflow-hidden">
+                             <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-black rounded-b-xl z-20"></div>
+                             <div class="w-full h-full bg-gray-100 flex flex-col pt-12 px-4 items-center relative">
+                                 <div class="w-full bg-white shadow-lg rounded-xl p-4 mb-4 relative overflow-hidden z-10 animate-float">
+                                     <div class="h-32 bg-waffle-500 rounded-lg mb-4 flex items-center justify-center relative overflow-hidden"><div class="absolute inset-0 waffle-pattern opacity-20"></div><span class="text-brand-dark font-black text-2xl uppercase relative z-10">Waffle Nation</span></div>
+                                     <div class="flex justify-between items-end"><div><p class="text-xs text-gray-400 uppercase font-bold">Nivel</p><p class="text-brand-dark font-bold">Waffle Citizen</p></div><i data-lucide="qr-code" class="text-brand-dark" width="32"></i></div>
+                                 </div>
+                                 <div class="absolute bottom-20 w-[90%] bg-white/80 backdrop-blur rounded-2xl p-4 shadow-xl border border-gray-200 animate-pulse">
+                                     <div class="flex gap-3"><div class="w-10 h-10 bg-waffle-500 rounded-lg flex items-center justify-center font-bold text-brand-dark">W</div><div><p class="text-xs font-bold text-gray-800">Waffle Nation</p><p class="text-xs text-gray-600">¡Estás cerca! Ven por tu 5º waffle gratis.</p></div></div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+        </section>
+
+        <!-- 10. CAMPAIGN SLIDE -->
+        <section id="slide-10" class="slide-section relative w-full min-h-[100dvh] md:absolute md:inset-0 bg-stone-100 slide-inactive">
+             <div class="w-full min-h-[100dvh] md:min-h-0 md:h-full flex flex-col justify-center items-center px-6 py-24 md:py-0 md:px-16 max-w-7xl mx-auto relative z-10 shrink-0">
+                <div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-16">
+                    <!-- Launch -->
+                    <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-100">
+                        <div class="flex items-center gap-3 mb-6"><span class="bg-brand-dark text-white px-3 py-1 rounded text-xs font-bold uppercase tracking-wider">Lanzamiento</span></div>
+                        <h1 class="text-3xl md:text-4xl font-black mb-4 leading-tight tracking-tight text-brand-dark">"La nación empieza aquí"</h1>
+                        <p class="text-base text-gray-500 mb-6 font-medium">No es solo la apertura de una isla. Es el comienzo de la comunidad.</p>
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 p-4 rounded-xl flex items-start gap-4"><div class="w-16 h-16 rounded-lg bg-waffle-100 flex items-center justify-center text-waffle-600 shrink-0 border border-waffle-200"><i data-lucide="camera"></i></div><div><h4 class="font-bold text-gray-800 text-sm">Piezas Clave</h4><p class="text-xs text-gray-500 mt-1">Close-ups provocativos. Copy: "Un waffle. Una nación."</p></div></div>
+                            <div class="bg-gray-50 p-4 rounded-xl flex items-start gap-4"><div class="w-16 h-16 rounded-lg bg-brand-dark/5 flex items-center justify-center text-brand-dark shrink-0 border border-brand-dark/10"><i data-lucide="star"></i></div><div><h4 class="font-bold text-gray-800 text-sm">Influencer Kit</h4><p class="text-xs text-gray-500 mt-1">Caja premium "Primer Ciudadano" con tarjeta lealtad.</p></div></div>
+                        </div>
+                    </div>
+                    <!-- Valentines -->
+                    <div class="bg-rose-50 p-8 rounded-3xl shadow-lg border border-rose-100">
+                        <div class="flex items-center gap-3 mb-6"><span class="bg-rose-500 text-white px-3 py-1 rounded text-xs font-bold uppercase tracking-wider flex items-center gap-1"><i data-lucide="calendar" width="12"></i> 14 Feb</span></div>
+                        <h1 class="text-3xl md:text-4xl font-black mb-4 leading-tight tracking-tight text-rose-900">"Comparte la nación"</h1>
+                        <p class="text-base text-rose-700/70 mb-6 font-medium">Concepto: El amor también se comparte. La Waffle Nation también.</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-center gap-3 bg-white/60 p-3 rounded-lg"><div class="p-2 bg-rose-100 text-rose-500 rounded-full"><i data-lucide="gift" width="16"></i></div><span class="text-sm font-medium text-rose-900">Cupón "Miembro x2" (2x1)</span></li>
+                            <li class="flex items-center gap-3 bg-white/60 p-3 rounded-lg"><div class="p-2 bg-rose-100 text-rose-500 rounded-full"><i data-lucide="gift" width="16"></i></div><span class="text-sm font-medium text-rose-900">Waffle edition San Valentín</span></li>
+                        </ul>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+        <!-- 11. BUDGET SLIDE -->
+        <section id="slide-11" class="slide-section relative w-full min-h-[100dvh] md:absolute md:inset-0 bg-stone-100 slide-inactive">
+             <div class="w-full min-h-[100dvh] md:min-h-0 md:h-full flex flex-col justify-center items-center px-6 py-24 md:py-0 md:px-16 max-w-7xl mx-auto relative z-10 shrink-0">
+                <div class="flex flex-col items-center w-full max-w-6xl">
+                    <div class="mb-10 text-center">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-brand-dark text-white rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+                            <i data-lucide="dollar-sign" width="14"></i> Propuesta Económica
+                        </div>
+                        <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-2 leading-tight tracking-tight text-brand-dark">TU INVERSIÓN MENSUAL</h1>
+                        <p class="text-lg md:text-xl font-medium leading-relaxed mb-4 max-w-2xl mx-auto text-sm text-gray-500">Un fee único que cubre todo el equipo y tecnología necesarios para operar Waffle Nation.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 w-full">
+                        <!-- Deliverables -->
+                        <div class="md:col-span-7 bg-white p-8 rounded-3xl shadow-sm border border-gray-200">
+                             <h3 class="text-xl font-black text-brand-dark mb-6 flex items-center gap-2"><i data-lucide="star" class="text-waffle-500 fill-waffle-500"></i> PLAN FULL SERVICE</h3>
+                             <ul class="space-y-4">
+                                <li class="flex items-start gap-3 text-gray-700 font-medium"><div class="mt-1 w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0"><i data-lucide="check" width="12"></i></div> Estrategia Digital Integral & Consultoría</li>
+                                <li class="flex items-start gap-3 text-gray-700 font-medium"><div class="mt-1 w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0"><i data-lucide="check" width="12"></i></div> Producción de Contenido & Diseño Gráfico</li>
+                                <li class="flex items-start gap-3 text-gray-700 font-medium"><div class="mt-1 w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0"><i data-lucide="check" width="12"></i></div> Community Management (Lunes a Domingo)</li>
+                                <li class="flex items-start gap-3 text-gray-700 font-medium"><div class="mt-1 w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0"><i data-lucide="check" width="12"></i></div> Gestión de Campañas Ads</li>
+                                <li class="flex items-start gap-3 text-gray-700 font-medium"><div class="mt-1 w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0"><i data-lucide="check" width="12"></i></div> Mantenimiento Web One Page & Hosting</li>
+                                <li class="flex items-start gap-3 text-gray-700 font-medium"><div class="mt-1 w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0"><i data-lucide="check" width="12"></i></div> Sistema Loyalty Wallet</li>
+                                <li class="flex items-start gap-3 text-gray-700 font-medium"><div class="mt-1 w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0"><i data-lucide="check" width="12"></i></div> Reporte Mensual de Resultados</li>
+                             </ul>
+                             <div class="mt-8 pt-6 border-t border-gray-100 flex items-start gap-3">
+                                <i data-lucide="info" class="text-gray-400 shrink-0" width="20"></i>
+                                <p class="text-xs text-gray-400 font-medium leading-relaxed">*La inversión en pauta publicitaria (Ads) se paga directamente a la plataforma con la tarjeta del cliente.</p>
+                             </div>
+                        </div>
+                        <!-- Price -->
+                        <div class="md:col-span-5 flex flex-col gap-4">
+                            <div class="flex-1 bg-brand-dark text-white p-8 rounded-3xl shadow-2xl relative overflow-hidden flex flex-col justify-center items-center text-center">
+                                <div class="absolute inset-0 waffle-pattern opacity-10"></div>
+                                <p class="text-gray-400 text-sm uppercase tracking-widest font-bold mb-4">Iguala Mensual</p>
+                                <div class="flex items-start justify-center gap-1 mb-2">
+                                    <span class="text-3xl font-bold mt-2">$</span>
+                                    <span class="text-7xl font-black text-waffle-500">17</span>
+                                    <div class="flex flex-col items-start mt-2"><span class="text-3xl font-bold">,000</span><span class="text-xs text-gray-400 font-bold uppercase">MXN + IVA</span></div>
+                                </div>
+                                <div class="w-full h-px bg-white/10 my-6"></div>
+                                <div class="flex items-center gap-2 text-waffle-100 bg-white/10 px-4 py-2 rounded-lg"><i data-lucide="calendar" width="18"></i><span class="font-bold text-sm">Contrato a 6 Meses</span></div>
+                            </div>
+                            <div class="bg-waffle-100 p-6 rounded-2xl border border-waffle-200">
+                                <p class="text-waffle-800 text-sm font-bold text-center">"El costo de no estar en la mente del consumidor es mucho más alto."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+        <!-- 12. CLOSING SLIDE -->
+        <section id="slide-12" class="slide-section relative w-full min-h-[100dvh] md:absolute md:inset-0 bg-waffle-500 flex items-center justify-center slide-inactive">
+            <div class="absolute inset-0 waffle-pattern opacity-10 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
+            
+            <div class="relative z-10 text-center px-4 max-w-5xl py-20 md:py-0">
+                <p class="text-lg md:text-xl font-bold text-white mb-6 uppercase tracking-[0.2em]">Ready to Launch?</p>
+                <h1 class="text-6xl md:text-8xl lg:text-9xl mb-8 leading-none text-brand-dark font-black">LET'S MAKE<br/>IT TASTY.</h1>
+                <div class="w-32 h-2 bg-brand-dark mx-auto mb-12 rounded-full"></div>
+                
+                <button onclick="handleApprove()" class="bg-brand-dark text-white px-12 py-5 rounded-full font-black text-xl hover:bg-black transition-all hover:scale-105 shadow-2xl hover:shadow-[0_10px_30px_rgba(0,0,0,0.3)] flex items-center gap-3 mx-auto">
+                    APROBAR PRESUPUESTO
+                </button>
+                
+                <div class="mt-24 text-brand-dark/50 text-sm font-black tracking-widest uppercase flex items-center justify-center gap-2">
+                    <span class="w-2 h-2 bg-brand-dark rounded-full"></span> WeSpeak Agency <span class="w-2 h-2 bg-brand-dark rounded-full"></span> 2025
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <div id="desktop-nav" class="hidden md:block">
+        <!-- Dots -->
+        <div id="nav-dots" class="absolute right-6 top-1/2 transform -translate-y-1/2 z-50 flex flex-col gap-4">
+            <!-- Generated via JS -->
+        </div>
+
+        <!-- Arrows -->
+        <div class="absolute bottom-6 left-0 right-0 z-50 flex justify-end px-16 gap-4">
+             <button onclick="goToPrev()" id="btn-prev" class="p-4 rounded-full transition-all duration-300 transform hover:scale-110 active:scale-95 border border-2 backdrop-blur-sm border-white/30 text-white hover:bg-white hover:text-brand-dark">
+                <i data-lucide="arrow-left" width="24"></i>
+             </button>
+             <button onclick="goToNext()" id="btn-next" class="p-4 rounded-full transition-all duration-300 transform hover:scale-110 active:scale-95 border border-2 backdrop-blur-sm border-white/30 text-white hover:bg-white hover:text-brand-dark">
+                <i data-lucide="arrow-right" width="24"></i>
+             </button>
+        </div>
+
+        <!-- Progress Bar -->
+        <div id="progress-bar" class="absolute top-0 left-0 h-1 bg-waffle-500 transition-all duration-500 z-50" style="width: 0%"></div>
+    </div>
+
+    <!-- Logic Script -->
+    <script>
+        // --- State ---
+        let currentSlide = 0;
+        const totalSlides = 13;
+        const lightSlides = [1, 4, 8, 10, 11]; // Indicies of light slides
+        
+        // --- Elements ---
+        const slides = document.querySelectorAll('.slide-section');
+        const progressBar = document.getElementById('progress-bar');
+        const dotsContainer = document.getElementById('nav-dots');
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+
+        // --- Initialization ---
+        function init() {
+            lucide.createIcons();
+            createDots();
+            updateSlideView();
+            
+            // Keyboard Nav
+            window.addEventListener('keydown', (e) => {
+                if (window.innerWidth < 768) return; // Disable keyboard nav on mobile scroll
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goToNext();
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goToPrev();
+            });
+        }
+
+        // --- Navigation Logic ---
+        function goToNext() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlideView();
+        }
+
+        function goToPrev() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlideView();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlideView();
+        }
+
+        // --- UI Updates ---
+        function updateSlideView() {
+            // Update Classes for Show/Hide (Desktop)
+            // Note: On mobile, CSS overrides these to be always visible
+            slides.forEach((slide, index) => {
+                if (index === currentSlide) {
+                    slide.classList.remove('slide-inactive');
+                    slide.classList.add('slide-active');
+                } else {
+                    slide.classList.remove('slide-active');
+                    slide.classList.add('slide-inactive');
+                }
+            });
+
+            // Update Desktop Navigation Styling
+            if (window.innerWidth >= 768) {
+                const isLight = lightSlides.includes(currentSlide);
+                updateNavColors(isLight);
+                updateDots();
+                progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            }
+        }
+
+        function createDots() {
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('button');
+                dot.className = `w-3 h-3 rounded-full transition-all duration-300 bg-white/20 hover:bg-white/40`;
+                dot.onclick = () => goToSlide(i);
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function updateDots() {
+            const dots = dotsContainer.children;
+            const isLight = lightSlides.includes(currentSlide);
+            
+            for (let i = 0; i < dots.length; i++) {
+                if (i === currentSlide) {
+                    dots[i].className = 'w-3 h-3 rounded-full transition-all duration-300 bg-waffle-500 scale-125';
+                } else {
+                    dots[i].className = `w-3 h-3 rounded-full transition-all duration-300 ${isLight ? 'bg-gray-300 hover:bg-gray-400' : 'bg-white/20 hover:bg-white/40'}`;
+                }
+            }
+        }
+
+        function updateNavColors(isLight) {
+            const darkClass = "border-brand-dark/20 text-brand-dark hover:bg-brand-dark hover:text-white";
+            const lightClass = "border-white/30 text-white hover:bg-white hover:text-brand-dark";
+            
+            // Reset
+            btnPrev.className = `p-4 rounded-full transition-all duration-300 transform hover:scale-110 active:scale-95 border border-2 backdrop-blur-sm ${isLight ? darkClass : lightClass}`;
+            btnNext.className = `p-4 rounded-full transition-all duration-300 transform hover:scale-110 active:scale-95 border border-2 backdrop-blur-sm ${isLight ? darkClass : lightClass}`;
+        }
+
+        // --- Interactive Slide Functions ---
+        
+        // Target Slide Logic
+        function selectPersona(index) {
+            const container = document.getElementById('persona-container');
+            const cards = container.children;
+            
+            const activeClasses = ['bg-waffle-500', 'border-waffle-500', 'scale-105', 'shadow-[0_0_30px_rgba(245,158,11,0.3)]'];
+            const inactiveClasses = ['bg-white/5', 'border-white/10', 'hover:bg-white/10'];
+            
+            for(let i=0; i<cards.length; i++) {
+                const card = cards[i];
+                const iconBox = card.querySelector('.icon-box');
+                const title = card.querySelector('.title');
+                const desc = card.querySelector('.desc');
+                
+                // Reset basic styles
+                card.classList.remove(...activeClasses, ...inactiveClasses);
+                
+                if (i === index) {
+                    card.classList.add(...activeClasses);
+                    // Inner styling
+                    iconBox.className = "icon-box mb-6 p-4 rounded-2xl inline-block transition-colors bg-black/20 text-black";
+                    title.className = "title text-2xl font-bold mb-4 text-brand-dark";
+                    desc.className = "desc text-sm leading-relaxed mb-6 text-brand-dark/80 font-medium";
+                    // Footer styling hack via DOM
+                    card.lastElementChild.children[0].className = "text-xs font-bold uppercase tracking-wider text-brand-dark";
+                    card.lastElementChild.children[1].className = "text-sm italic mt-1 text-brand-dark";
+                } else {
+                    card.classList.add(...inactiveClasses);
+                    // Inner styling
+                    iconBox.className = "icon-box mb-6 p-4 rounded-2xl inline-block transition-colors bg-white/10 text-waffle-500";
+                    title.className = "title text-2xl font-bold mb-4 text-white";
+                    desc.className = "desc text-sm leading-relaxed mb-6 text-gray-400";
+                     // Footer styling hack via DOM
+                    card.lastElementChild.children[0].className = "text-xs font-bold uppercase tracking-wider text-waffle-500";
+                    card.lastElementChild.children[1].className = "text-sm italic mt-1 text-white";
+                }
+            }
+        }
+
+        // WhatsApp Function
+        function handleApprove() {
+            const phone = "525558788452";
+            const text = encodeURIComponent("¡Hola! Me encantó la propuesta para Waffle Nation. Quiero aprobar el presupuesto y comenzar. 🧇🚀");
+            window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+        }
+
+        // Run Init
+        init();
+
+    </script>
+</body>
+</html>
